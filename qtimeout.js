@@ -76,14 +76,16 @@ function NativeTimer( callback ) {
 }
 
 NativeTimer.prototype.start = function timer_start( timeout ) {
-    if (this.running) this.timer.stop();
-    this.timer.start(timeout);
-    this.running = true;
+    if (timeout > 0) {
+        this.timer.start(timeout | 0);
+        this.running = true;
+    }
+    else this.stop();
     return this;
 }
 
 NativeTimer.prototype.stop = function timer_stop( ) {
-    if (this.running) this.timer.stop();
+    this.timer.stop();
     this.running = false;
     return this;
 }
