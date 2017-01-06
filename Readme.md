@@ -21,8 +21,13 @@ Summary
 
 Benchmark:
 
-    ...
+    setTimeout / clearTimeout   0.74 m / s      # new timer_wrap
+    setTimeout / clearTimeout   2.7 m / s       # existing timer_wrap
 
+    new QTimeout                1.1 m / s       # reusable timeout
+    qtimeout start / stop       25 m / s        # reuse timeout
+        .start                  37 m / s
+        .stop                   67 m / s
 
 Api
 ---
