@@ -1,5 +1,5 @@
 /**
- * qlimiter - nodejs call limiter
+ * qtimeout - fast restartable nodejs timer
  *
  * efficient resettable timer.  Uses native uv timers if available, else setTimeout.
  *

@@ -1,5 +1,5 @@
 /**
- * qlimiter - nodejs call limiter
+ * qtimeout - fast restartable nodejs timer
  *
  * Copyright (C) 2016 Andras Radics
  * Licensed under the Apache License, Version 2.0
