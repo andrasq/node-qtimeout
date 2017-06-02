@@ -31,6 +31,11 @@ setTimeout(function() {
     var t = new qtimeout(callback);
     //qtimeit(100000, function(){ t.start(100) });
     // 37m/s (26m/s if it tests first)
+    // 34m/s
+
+    var v = 1;
+    //qtimeit(100000, function(){ t.start(v++); t.stop() });
+    // 24m/s different timeouts (uv heap mgmt?)
 
     //qtimeit(100000, function(){ t.stop() });
     // 67m/s if stops it each time (460m/s if it tests first)
@@ -39,6 +44,7 @@ setTimeout(function() {
     // 24m/s
     //qtimeit(100000, function(){ t.ref(); t.unref() });
     // 39m/s
+    // 37m/s
 
     var t = new qtimeout(callback);
     //qtimeit(100000, function(){ t.timer.start(100) });
