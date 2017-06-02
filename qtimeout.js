@@ -11,13 +11,13 @@
 
 var useNativeTimer = false;
 try {
-    if (process.binding('timer_wrap')) {
-        var TimerWrap = process.binding('timer_wrap').Timer;
-        var testTimer = new TimerWrap();
-        useNativeTimer = (testTimer && testTimer.start && testTimer.stop && testTimer.unref);
-    }
+    // throws 'No such module: timer_wrap' if no timer_wrap
+    var TimerWrap = process.binding('timer_wrap').Timer;
+    var testTimer = new TimerWrap();
+    useNativeTimer = (testTimer && testTimer.start && testTimer.stop && testTimer.unref);
 }
 catch (err) {
+    console.log("timer_wrap not available, using TimeoutTimer");
     useNativeTimer = false;
 }
 
@@ -38,10 +38,13 @@ function TimeoutTimer( callback ) {
 }
 
 TimeoutTimer.prototype.start = function timer_start( timeout ) {
-    if (this.running) clearTimeout(this.timer);
-    this.timer = setTimeout(this.callback, timeout);
-    if (this._unref) this.timer.unref();
-    this.running = true;
+    if (timeout > 0) {
+        if (this.running) clearTimeout(this.timer);
+        this.timer = setTimeout(this.callback, timeout);
+        if (this._unref) this.timer.unref();
+        this.running = true;
+    }
+    else this.stop();
     return this;
 }
 
@@ -71,8 +74,8 @@ function NativeTimer( callback ) {
     this.running = false;
     this.callback = function() { self.running = false; callback() };
     this.timer = new TimerWrap();
-    if (process.version < 'v0.11.') this.timer.ontimeout = this.callback;
-    else this.timer[0] = this.callback;
+    this.timer.ontimeout = this.callback;       // if (process.version < 'v0.11.')
+    this.timer[0] = this.callback;
 }
 
 NativeTimer.prototype.start = function timer_start( timeout ) {

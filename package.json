@@ -1,20 +1,22 @@
 {
   "name": "qtimeout",
   "description": "fast restartable timeout timer",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "main": "qtimeout.js",
 
   "author": "Andras (http://github.com/andrasq)",
   "license": "Apache-2.0",
-  "repository": "git://github.com/andrasq/node-qtimeout",
+  "repository": "git://github.com/andrasq/node-qtimeout#readme",
   "engines": { "node": ">=0.10" },
   "keywords": ["fast", "Andras", "restartable", "timer"],
 
   "dependencies": {},
   "devDependencies": {
-    "qnit": "0.13.0"
+    "qnit": "0.16.1"
   },
   "scripts": {
-    "test": "qnit test-*"
+    "test": "qnit test-*",
+    "coverage": "nyc --reporter lcov --reporter text npm test",
+    "clean": "rm -rf .nyc_output coverage"
   }
 }

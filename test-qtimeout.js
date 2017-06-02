@@ -74,12 +74,34 @@ var testTimer = {
     'should start unref-d timer': function(t) {
         this.timer.unref();
         this.timer.start(1);
+        t.equal(this.timer.running, true);
         t.done();
     },
 
     'should start ref-d timer': function(t) {
         this.timer.ref();
         this.timer.start(1);
+        t.equal(this.timer.running, true);
+        t.done();
+    },
+
+    'started timer should be running': function(t) {
+        this.timer.start(1);
+        t.equal(this.timer.running, true);
+        t.done();
+    },
+
+    'should stop timer if time == 0': function(t) {
+        this.timer.start(1);
+        this.timer.start(0);
+        t.equal(this.timer.running, false);
+        t.done();
+    },
+
+    'should stop timer if time < 0': function(t) {
+        this.timer.start(1);
+        this.timer.start(-1);
+        t.equal(this.timer.running, false);
         t.done();
     },
 
@@ -110,6 +132,22 @@ module.exports = {
         t.equal(typeof Timer.Timer, 'function');
         t.equal(typeof Timer.TimeoutTimer, 'function');
         t.equal(typeof Timer.NativeTimer, 'function');
+        t.done();
+    },
+
+    'should use NativeTimer if bindings("timer_wrap") throws': function(t) {
+        var stub = t.stubOnce(process, 'binding', function(what) {
+            // qtimeout calls process.binding('timer_wrap') first thing
+            throw new Error("no timer wrap");
+        })
+
+        delete require.cache[require.resolve('./')];
+        var Timer = require('./');
+
+        var timer = new Timer(this.callback);
+        delete require.cache[require.resolve('./')];
+
+        t.ok(timer instanceof Timer.TimeoutTimer);
         t.done();
     },
 

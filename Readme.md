@@ -1,6 +1,9 @@
 qtimeout
 ========
 
+[![Build Status](https://api.travis-ci.org/andrasq/node-qtimeout.svg?branch=master)](https://travis-ci.org/andrasq/node-qtimeout?branch=master)
+[![Coverage Status](https://codecov.io/github/andrasq/node-qtimeout/coverage.svg?branch=master)](https://codecov.io/github/andrasq/node-qtimeout?branch=master)
+
 Fast restartable nodejs timer.
 
 For watchdog type timeouts that repeatedly cancel the trigger timer and restart
@@ -70,7 +73,7 @@ exiting.  The program can exit once the timeout triggers or the timeout object i
 ### running
 
 The `running` property is `true` if the timeout was started, `false` if stopped.
-This is a read-only property; do not set.
+This is a read-only property; do not change.
 
 
 Bugs
@@ -86,5 +89,6 @@ Bugs
 Change Log
 ----------
 
+- 0.9.3 - ci testing, 100% unit test coverage, coverage buttons
 - 0.9.2 - readme edits, more benchmarks, fix package.json
 - 0.9.0 - first version, brought over from [`qlimiter`](https://npmjs.org/package/qlimiter)
