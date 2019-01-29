@@ -9,6 +9,8 @@
 
 var Timer = require('./');
 
+function noop(){}
+
 var testTimer = {
     'should be instanceof type': function(t) {
         t.assert(this.timer instanceof this.type);
@@ -16,17 +18,26 @@ var testTimer = {
     },
 
     'should construct with new or as a function': function(t) {
-        var noop = function(){};
         t.ok(new Timer(noop) instanceof Timer);
         t.ok(Timer(noop) instanceof Timer);
         t.done();
     },
 
     'should construct as a function with this set to other': function(t) {
-        var noop = function(){};
-        var obj = { Timer: Timer };
+        var obj = { Timer: Timer, TimeoutTimer: Timer.TimeoutTimer };
         t.ok(new obj.Timer(noop) instanceof Timer);
         t.ok(obj.Timer(noop) instanceof Timer);
+        t.ok(new obj.TimeoutTimer(noop) instanceof Timer.TimeoutTimer);
+        t.ok(obj.TimeoutTimer(noop) instanceof Timer.TimeoutTimer);
+        t.done();
+    },
+
+    'should revert to TimeoutTimer with node-v10 and up': function(t) {
+        var nodeVersion = process.version;
+        Object.defineProperty(process, 'version', { value: 'v10.0.0' });
+        t.unrequire('./');
+        var Timer = require('./');
+        t.ok(new Timer(noop) instanceof Timer.TimeoutTimer);
         t.done();
     },
 
@@ -190,3 +201,6 @@ module.exports = {
         tests: testTimer,
     }
 }
+
+// TODO: node-v10 and up changed TimerWrap, it breaks setTimeout if used
+if (parseInt(process.version.slice(1)) >= 10) delete module.exports.NativeTimer;
