@@ -11,6 +11,7 @@
 
 var useNativeTimer = false;
 try {
+    if (parseInt(process.version.slice(1)) >= 10) throw new Error('node-v10 and up break if TimerWrap is used');
     // throws 'No such module: timer_wrap' if no timer_wrap
     var TimerWrap = process.binding('timer_wrap').Timer;
     var testTimer = new TimerWrap();
