@@ -1,8 +1,7 @@
 qtimeout
 ========
-
 [![Build Status](https://api.travis-ci.org/andrasq/node-qtimeout.svg?branch=master)](https://travis-ci.org/andrasq/node-qtimeout?branch=master)
-[![Coverage Status](https://codecov.io/github/andrasq/node-qtimeout/coverage.svg?branch=master)](https://codecov.io/github/andrasq/node-qtimeout?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/andrasq/node-qtimeout/badge.svg?branch=master)](https://coveralls.io/github/andrasq/node-qtimeout?branch=master)
 
 Fast restartable nodejs timer.
 

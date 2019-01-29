@@ -6,7 +6,7 @@
 
   "author": "Andras (http://github.com/andrasq)",
   "license": "Apache-2.0",
-  "repository": "git://github.com/andrasq/node-qtimeout#readme",
+  "repository": { "type": "git", "url": "git://github.com/andrasq/node-qtimeout#readme" },
   "engines": { "node": ">=0.10" },
   "keywords": ["fast", "Andras", "restartable", "timer"],
 
@@ -14,9 +14,10 @@
   "devDependencies": {
     "qnit": "0.16.1"
   },
+
   "scripts": {
     "test": "qnit test-*",
     "coverage": "nyc --reporter lcov --reporter text npm test",
-    "clean": "rm -rf .nyc_output coverage"
+    "clean": "rm -rf .nyc_output coverage npm-debug.log"
   }
 }
