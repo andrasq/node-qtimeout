@@ -88,6 +88,7 @@ Bugs
 Change Log
 ----------
 
+- 0.9.4 - fix factory-style constructor call
 - 0.9.3 - ci testing, 100% unit test coverage, coverage buttons
 - 0.9.2 - readme edits, more benchmarks, fix package.json
 - 0.9.0 - first version, brought over from [`qlimiter`](https://npmjs.org/package/qlimiter)
