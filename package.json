@@ -12,7 +12,7 @@
 
   "dependencies": {},
   "devDependencies": {
-    "qnit": "0.16.1"
+    "qnit": "0.25.1"
   },
 
   "scripts": {
