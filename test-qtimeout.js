@@ -15,6 +15,21 @@ var testTimer = {
         t.done();
     },
 
+    'should construct with new or as a function': function(t) {
+        var noop = function(){};
+        t.ok(new Timer(noop) instanceof Timer);
+        t.ok(Timer(noop) instanceof Timer);
+        t.done();
+    },
+
+    'should construct as a function with this set to other': function(t) {
+        var noop = function(){};
+        var obj = { Timer: Timer };
+        t.ok(new obj.Timer(noop) instanceof Timer);
+        t.ok(obj.Timer(noop) instanceof Timer);
+        t.done();
+    },
+
     'should require a callback': function(t) {
         var self = this;
         try {
@@ -106,7 +121,7 @@ var testTimer = {
     },
 
     'reset speed': function(t) {
-        var nloops = 20000;
+        var nloops = 100000;
         var t1 = Date.now();
         this.timer.start(20);
         for (var i=0; i<nloops; i++) this.timer.start(10 + i%2 ? 2 : 0);

@@ -1,7 +1,7 @@
 {
   "name": "qtimeout",
   "description": "fast restartable timeout timer",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "main": "qtimeout.js",
 
   "author": "Andras (http://github.com/andrasq)",

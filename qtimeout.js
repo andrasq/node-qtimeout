@@ -28,6 +28,7 @@ module.exports.NativeTimer = NativeTimer;
 module.exports.TimeoutTimer = TimeoutTimer;
 
 function TimeoutTimer( callback ) {
+    if (!(this instanceof TimeoutTimer)) return new TimeoutTimer(callback);
     if (typeof callback !== 'function') throw new Error("TimeoutTimer needs a callback");
 
     var self = this;
@@ -68,6 +69,7 @@ TimeoutTimer.prototype = TimeoutTimer.prototype;
 
 
 function NativeTimer( callback ) {
+    if (!(this instanceof NativeTimer)) return new NativeTimer(callback);
     if (typeof callback !== 'function') throw new Error("NativeTimer needs a callback");
 
     var self = this;
