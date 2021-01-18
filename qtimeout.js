@@ -11,6 +11,9 @@
 
 var useNativeTimer = false;
 try {
+    // early node-v10 broke if timer_wrap was used, later node throws "No such module: "timer_wrap"
+    // because Timer is now hidden behind internalBindings() which is not callable from userland.
+    // However, setTimeout() is 10-25x slower to start/stop than Timer.
     if (parseInt(process.version.slice(1)) >= 10) throw new Error('node-v10 and up break if TimerWrap is used');
     // throws 'No such module: timer_wrap' if no timer_wrap
     var TimerWrap = process.binding('timer_wrap').Timer;
@@ -43,7 +46,7 @@ TimeoutTimer.prototype.start = function timer_start( timeout ) {
     if (timeout > 0) {
         if (this.running) clearTimeout(this.timer);
         this.timer = setTimeout(this.callback, timeout);
-        if (this._unref) this.timer.unref();
+        if (this._unref && this.timer.unref) this.timer.unref();
         this.running = true;
     }
     else this.stop();
@@ -97,12 +100,12 @@ NativeTimer.prototype.stop = function timer_stop( ) {
 }
 
 NativeTimer.prototype.ref = function timer_ref( ) {
-    this.timer.ref();
+    this.timer.ref && this.timer.ref();
     return this;
 }
 
 NativeTimer.prototype.unref = function timer_unref( ) {
-    this.timer.unref();
+    this.timer.unref && this.timer.unref();
     return this;
 }
 

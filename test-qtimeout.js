@@ -87,13 +87,15 @@ var testTimer = {
         setTimeout(function() {
             var t1 = Date.now();
             self.timer.start(12);
+            // node-v0.6 was more sloppy about timeouts, pad the expiration
+            var timeoutPad = parseFloat(process.versions.node) <= 0.6 ? 5 : 0;
             setTimeout(function() {
                 var t2 = Date.now();
                 t.assert(t2 >= t1 + 12);
                 t.assert(t2 >= t0 + 12 + 5);
                 t.equal(self.called, 1);
                 t.done();
-            }, 14);
+            }, 14 + timeoutPad);
         }, 5);
     },
 
@@ -133,12 +135,12 @@ var testTimer = {
 
     'reset speed': function(t) {
         var nloops = 100000;
-        var t1 = Date.now();
+        var t1 = microtime() * 1000;
         this.timer.start(20);
         for (var i=0; i<nloops; i++) this.timer.start(10 + i%2 ? 2 : 0);
-        var t2 = Date.now();
+        var t2 = microtime() * 1000;
         this.timer.stop();
-        console.log("AR: %d restarts in %d ms", nloops, t2 - t1);
+        console.log(t.sprintf("AR: %d restarts in %0.3f ms", nloops, t2 - t1));
         t.done();
     },
 };
@@ -202,5 +204,8 @@ module.exports = {
     }
 }
 
+function microtime() { var t = process.hrtime ? process.hrtime() : [Date.now() * 1000, 0]; return t[0] + t[1] * 1e-9 }
+
 // TODO: node-v10 and up changed TimerWrap, it breaks setTimeout if used
+// later node-v10 and up throw "No such module: timer_wrap"
 if (parseInt(process.version.slice(1)) >= 10) delete module.exports.NativeTimer;
